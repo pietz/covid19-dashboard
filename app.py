@@ -3,9 +3,13 @@ import pandas as pd
 import plotly.express as px
 import requests
 
-r = requests.get('https://coronavirus-19-api.herokuapp.com/countries')
-df = pd.DataFrame.from_dict(r.json()) if r.status_code else pd.read_csv('data.csv')
-df = df[df.country != 'World']
+@st.cache
+def load_data():
+    r = requests.get('https://coronavirus-19-api.herokuapp.com/countries')
+    df = pd.DataFrame.from_dict(r.json()) if r.status_code == 200 else pd.read_csv('data.csv')
+    return df[df.country != 'World']
+
+df = load_data()
 
 st.sidebar.title('Corona Dashboard')
 st.sidebar.markdown('by Paul-Louis Proeve')
