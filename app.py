@@ -25,9 +25,11 @@ txt = 'There have been a total of ' + str(df.cases.sum()) + ' COVID-19 cases wor
 txt += ' resulting in ' + str(df.deaths.sum()) + ' deaths.'
 st.sidebar.markdown(txt)
 
-cp = px.choropleth(df, locations='country', locationmode='country names', color=col, scope=region)
+title1 = 'Global distribution for the selected attribute'
+cp = px.choropleth(df, locations='country', locationmode='country names', color=col, scope=region, title=title1)
 st.plotly_chart(cp, use_container_width=True)
 
 df_bar = df.sort_values(col, ascending=False)[:10]
-bc = px.bar(df_bar, 'country', col, color=col)
+title2 = 'Top-10 countries for the selected attribute'
+bc = px.bar(df_bar, 'country', col, color=col, title=title2)
 st.plotly_chart(bc, use_container_width=True)
